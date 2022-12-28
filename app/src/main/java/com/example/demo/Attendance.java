@@ -16,7 +16,8 @@ public class Attendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Student Attendance");
         button1 = findViewById(R.id.button);
         button1.setOnClickListener(view -> {
             Intent StudentDetailsIntent = new Intent(this,Attendance.class);

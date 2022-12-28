@@ -33,7 +33,8 @@ public class Student_Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_details);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Details of Student");
 
         name = (TextView) findViewById(R.id.nfc_contents);
         branch = (TextView) findViewById(R.id.nfc_contents2);
