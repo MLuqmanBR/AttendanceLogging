@@ -18,6 +18,9 @@ import android.util.Log;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.PendingIntent;
+import android.nfc.NfcAdapter;
+
 
 public class Student_Details extends AppCompatActivity {
 
@@ -27,6 +30,8 @@ public class Student_Details extends AppCompatActivity {
     TextView blockname;
     TextView phoneno;
 
+    //NfcAdapter mAdapter;
+    PendingIntent mPendingIntent;
 
     NfcAdapter mAdapter;
     @Override
@@ -50,6 +55,7 @@ public class Student_Details extends AppCompatActivity {
             finish();
         }
 
+        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_MUTABLE);
     }
 
 
@@ -106,4 +112,19 @@ public class Student_Details extends AppCompatActivity {
         super.onNewIntent(intent);
         readfromIntent(intent);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdapter != null) {
+            mAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAdapter != null) {
+            mAdapter.disableForegroundDispatch(this);
+        }
+    }
+
 }
