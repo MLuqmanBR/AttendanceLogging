@@ -24,4 +24,7 @@
     <string name="phone_no">Phone No.</string>
     <string name="attendance">Attendance</string>
     <string name="register_tag">Register Tag</string>
+    <string name="view_student_details">View Student Details</string>
+    <string name="download_today_s_data">Download Today\'s Data</string>
+    <string name="student_details">STUDENT DETAILS</string>
 </resources>
