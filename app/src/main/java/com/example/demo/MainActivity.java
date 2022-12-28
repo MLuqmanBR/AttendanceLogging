@@ -14,8 +14,6 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Tag myTag;
     Context context;
     TextView edit_message;
-    TextView nfc_contents;
+
     TextView rollno;
     TextView branch;
     TextView blockname;
@@ -86,50 +83,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "This device does not support NFC", Toast.LENGTH_SHORT).show();
             finish();
         }
-        readfromIntent(getIntent());
 
         mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_MUTABLE);
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
         writingTagFilter = new IntentFilter[] { tagDetected };
-    }
-
-    private void readfromIntent(Intent intent) {
-        String action = intent.getAction();
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action) ){
-            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage[] msgs = null;
-            if (rawMsgs != null) {
-                msgs = new NdefMessage[rawMsgs.length];
-                for (int i = 0; i < rawMsgs.length; i++) {
-                    msgs[i] = (NdefMessage) rawMsgs[i];
-                }
-            }
-            buildTagViews(msgs);
-        }
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    private void buildTagViews(NdefMessage[] msgs) {
-        if (msgs == null || msgs.length == 0) return;
-
-        String text = "";
-        // String tagId = new String(msgs[0].getRecords()[0].getType());
-        byte[] payload = msgs[0].getRecords()[0].getPayload();
-        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16"; //Get the Text Encoding
-        int languageCodeLength = payload[0] & 51; // Get the Language Code, e.g. "en"
-        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
-
-        try {
-            // Get the Text
-            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength -1, textEncoding);
-        } catch (UnsupportedEncodingException e) {
-            Log.e("UnsupportedEncoding",e.toString());
-        }
-        nfc_contents.setText("NFC Content: " + text);
     }
 
     private void write(String text, Tag tag) throws IOException, FormatException {
@@ -166,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        readfromIntent(intent);
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
             myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         }
