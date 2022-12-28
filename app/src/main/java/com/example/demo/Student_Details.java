@@ -91,11 +91,11 @@ public class Student_Details extends AppCompatActivity {
         List<String> fixedLenghtList = Arrays.asList(student_list);
         ArrayList<String> listOfString;
         listOfString = new ArrayList<String>(fixedLenghtList);
-        name.setText("NFC Content: " + listOfString.get(0));
-        branch.setText("NFC Content: " + listOfString.get(2));
-        blockname.setText("NFC Content: " + listOfString.get(3));
-        rollno.setText("NFC Content: " + listOfString.get(1));
-        phoneno.setText("NFC Content: " + listOfString.get(4));
+        name.setText(listOfString.get(0));
+        branch.setText(listOfString.get(2));
+        blockname.setText(listOfString.get(3));
+        rollno.setText(listOfString.get(1));
+        phoneno.setText(listOfString.get(4));
 
     }
 
