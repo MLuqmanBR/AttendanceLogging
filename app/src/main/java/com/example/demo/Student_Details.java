@@ -36,11 +36,11 @@ public class Student_Details extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Details of Student");
 
-        name = (TextView) findViewById(R.id.nfc_contents);
-        branch = (TextView) findViewById(R.id.nfc_contents2);
-        rollno = (TextView) findViewById(R.id.nfc_contents3);
-        blockname = (TextView) findViewById(R.id.nfc_contents4);
-        phoneno = (TextView) findViewById(R.id.nfc_contents5);
+        name = (TextView) findViewById(R.id.nfc_contents_name);
+        branch = (TextView) findViewById(R.id.nfc_contents_branch);
+        rollno = (TextView) findViewById(R.id.nfc_contents_rollno);
+        blockname = (TextView) findViewById(R.id.nfc_contents_blockname);
+        phoneno = (TextView) findViewById(R.id.nfc_contents_phoneno);
 
 
         readfromIntent(getIntent());

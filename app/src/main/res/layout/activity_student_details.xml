@@ -23,7 +23,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nfc_contents"
+        android:id="@+id/nfc_contents_name"
         android:layout_width="231dp"
         android:layout_height="25dp"
         android:layout_margin="55dp"
@@ -39,7 +39,7 @@
 
 
     <TextView
-        android:id="@+id/nfc_contents2"
+        android:id="@+id/nfc_contents_rollno"
         android:layout_width="211dp"
         android:layout_height="24dp"
         android:layout_margin="55dp"
@@ -49,12 +49,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nfc_contents"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_name"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nfc_contents3"
+        android:id="@+id/nfc_contents_branch"
         android:layout_width="216dp"
         android:layout_height="24dp"
         android:layout_margin="55dp"
@@ -64,12 +64,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nfc_contents2"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_rollno"
         app:layout_constraintVertical_bias="0.015"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nfc_contents4"
+        android:id="@+id/nfc_contents_blockname"
         android:layout_width="168dp"
         android:layout_height="24dp"
         android:layout_margin="55dp"
@@ -79,12 +79,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nfc_contents3"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_branch"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nfc_contents5"
+        android:id="@+id/nfc_contents_phoneno"
         android:layout_width="194dp"
         android:layout_height="23dp"
         android:layout_margin="55dp"
@@ -94,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nfc_contents4"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_blockname"
         app:layout_constraintVertical_bias="0.025"
         tools:ignore="MissingConstraints" />
 

@@ -20,8 +20,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,7 +79,48 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(context, Error_Detected,Toast.LENGTH_LONG).show();
                 }
                 else{
-                    write(edit_message.getText().toString() + "," + rollno.getText().toString() + "," + blockname.getText().toString() + "," + branch.getText().toString() + "," + phone.getText().toString(), myTag);
+                    write(edit_message.getText().toString() + "," + rollno.getText().toString() + "," + branch.getText().toString() + "," + blockname.getText().toString() + "," + phone.getText().toString(), myTag);
+
+                    // Create a JSON object for the data
+                    JSONObject dataObject = new JSONObject();
+                    dataObject.put("name", edit_message);
+                    dataObject.put("rollNo", rollno);
+                    dataObject.put("branch", branch);
+                    dataObject.put("blockName", blockname);
+                    dataObject.put("phoneNo", phone);
+
+                    // Create an array to hold the dates and times
+                    JSONArray dateArray = new JSONArray();
+
+                    // Add the current date and time to the array
+                    Calendar currentTime = Calendar.getInstance();
+                    dateArray.put(currentTime.getTime().toString());
+
+                    // Add the array to the object
+                    dataObject.put("dates", dateArray);
+
+                    // Read the file and parse the JSON array
+                    File file = new File(getFilesDir(), "student_data.json");
+                    JSONArray dataArray;
+
+                    try {
+                        FileInputStream inputStream = new FileInputStream(file);
+                        String inputString = new BufferedReader(new InputStreamReader(inputStream)).readLine();
+                        inputStream.close();
+                        dataArray = new JSONArray(inputString);
+                    } catch (FileNotFoundException e) {
+                        // Create a new file with an empty array if the file does not exist
+                        dataArray = new JSONArray();
+                    }
+
+                    // Add the new data object to the array
+                    dataArray.put(dataObject);
+
+                    // Write the updated array back to the file
+                    FileOutputStream outputStream = new FileOutputStream(file);
+                    outputStream.write(dataArray.toString().getBytes());
+                    outputStream.close();
+
                     Toast.makeText(context,Write_Success,Toast.LENGTH_LONG).show();
                 }
 
