@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(context, Error_Detected,Toast.LENGTH_LONG).show();
                 }
                 else{
-                    write(" "+ edit_message.getText().toString() + "," + rollno.getText().toString() + "," + blockname.getText().toString() + "," + branch.getText().toString() + "," + phone.getText().toString(), myTag);
+                    write(edit_message.getText().toString() + "," + rollno.getText().toString() + "," + blockname.getText().toString() + "," + branch.getText().toString() + "," + phone.getText().toString(), myTag);
                     Toast.makeText(context,Write_Success,Toast.LENGTH_LONG).show();
                 }
 
