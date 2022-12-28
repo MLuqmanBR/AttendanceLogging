@@ -20,7 +20,7 @@ public class Attendance extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Student Attendance");
         button1 = findViewById(R.id.button);
         button1.setOnClickListener(view -> {
-            Intent StudentDetailsIntent = new Intent(this,Attendance.class);
+            Intent StudentDetailsIntent = new Intent(this,Student_Details.class);
             startActivity(StudentDetailsIntent);
         });
 
