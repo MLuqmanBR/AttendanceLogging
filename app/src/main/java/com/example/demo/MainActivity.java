@@ -33,6 +33,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Objects;
+import android.os.Environment;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final String Error_Detected = "No NFC tag detected";
@@ -83,11 +85,11 @@ public class MainActivity extends AppCompatActivity {
 
                     // Create a JSON object for the data
                     JSONObject dataObject = new JSONObject();
-                    dataObject.put("name", edit_message);
-                    dataObject.put("rollNo", rollno);
-                    dataObject.put("branch", branch);
-                    dataObject.put("blockName", blockname);
-                    dataObject.put("phoneNo", phone);
+                    dataObject.put("name", edit_message.getText().toString());
+                    dataObject.put("rollNo", rollno.getText().toString());
+                    dataObject.put("branch", branch.getText().toString());
+                    dataObject.put("blockName", blockname.getText().toString());
+                    dataObject.put("phoneNo", phone.getText().toString());
 
                     // Create an array to hold the dates and times
                     JSONArray dateArray = new JSONArray();
@@ -99,8 +101,26 @@ public class MainActivity extends AppCompatActivity {
                     // Add the array to the object
                     dataObject.put("dates", dateArray);
 
+                    // Create a File object for the desired directory
+                    File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+                    // Create a new file in the desired directory
+                    //File file = new File(downloadDir, "JSON_Data/student_data.json");
+
+                    // Write the data to the file
+                    //FileOutputStream outputStream = new FileOutputStream(file);
+                    //outputStream.write(dataObject.toString().getBytes());
+                    //outputStream.close();
+
                     // Read the file and parse the JSON array
-                    File file = new File(getFilesDir(), "student_data.json");
+                    //File file = new File(getFilesDir(), "student_data.json");
+
+                    // Create a new file in the desired directory
+                    File file = new File(downloadDir, "JSON_Data/student_data.json");
+
+                    // Make sure the required directories exist
+                    file.getParentFile().mkdirs();
+
                     JSONArray dataArray;
 
                     try {
