@@ -1,47 +1,173 @@
 package com.example.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.NfcAdapter;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
-
 import static android.nfc.NdefRecord.TNF_WELL_KNOWN;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import android.os.Environment;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.Tag;
-import android.os.Parcelable;
-import android.util.Log;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Objects;
+
+
+
+
+
 
 public class Attendance extends AppCompatActivity {
     public static final String Error_Detected = "No NFC tag detected";
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
+    public class Student {
+        private String name;
+        private String rollNo;
+        private String blockName;
+        private String branch;
+        private String phoneNo;
+        private List<String> dates;
+
+        public Student(String name, String rollNo, String branch, String blockName, String phoneNo, List<String> dates) {
+            this.name = name;
+            this.rollNo = rollNo;
+            this.branch = branch;
+            this.blockName = blockName;
+            this.phoneNo = phoneNo;
+            this.dates = dates;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRollNo() {
+            return rollNo;
+        }
+
+        public void setRollNo(String rollNo) {
+            this.rollNo = rollNo;
+        }
+
+        public String getBlockName() {
+            return blockName;
+        }
+
+        public void setBlockName(String blockName) {
+            this.blockName = blockName;
+        }
+
+        public String getBranch() {
+            return branch;
+        }
+
+        public void setBranch(String branch) {
+            this.branch = branch;
+        }
+
+        public String getPhoneNo() {
+            return phoneNo;
+        }
+
+        public void setPhoneNo(String phoneNo) {
+            this.phoneNo = phoneNo;
+        }
+
+        public List<String> getDates() {
+            return this.dates;
+        }
+
+        public void setDates(List<String> dates) {
+            this.dates = dates;
+        }
+
+        public Student fromJson(JSONObject jsonObject) throws JSONException {
+            String name = jsonObject.getString("name");
+            String rollNo = jsonObject.getString("rollNo");
+            String blockName = jsonObject.getString("blockName");
+            String branch = jsonObject.getString("branch");
+            String phoneNo = jsonObject.getString("phoneNo");
+            JSONArray datesJsonArray = jsonObject.getJSONArray("dates");
+            List<String> dates = new ArrayList<>();
+            for (int i = 0; i < datesJsonArray.length(); i++) {
+                dates.add(datesJsonArray.getString(i));
+            }
+
+            return new Student(name, rollNo, blockName, branch, phoneNo, dates);
+        }
+
+        public List<Student> fromJson(JSONArray jsonArray) throws JSONException {
+            List<Student> students = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                students.add(fromJson(jsonArray.getJSONObject(i)));
+            }
+            return students;
+        }
+
+        public JSONObject toJson() throws JSONException {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", name);
+            jsonObject.put("rollNo", rollNo);
+            jsonObject.put("blockName", blockName);
+            jsonObject.put("branch", branch);
+            jsonObject.put("phoneNo", phoneNo);
+            JSONArray datesJsonArray = new JSONArray(dates);
+            jsonObject.put("dates", datesJsonArray);
+
+            return jsonObject;
+        }
+
+        public String toJson(List<Student> students) throws JSONException {
+            JSONArray jsonArray = new JSONArray();
+            for (Student student : students) {
+                jsonArray.put(student.toJson());
+            }
+            return jsonArray.toString();
+        }
+    }
+
+    List<Student> students;
     Button button1;
+    Button button2;
     NfcAdapter mAdapter;
     PendingIntent mPendingIntent;
     IntentFilter[] writingTagFilter;
     Tag myTag;
+    Context context;
 
     @SuppressLint({"MissingInflatedId", "UnspecifiedImmutableFlag"})
     @Override
@@ -51,10 +177,45 @@ public class Attendance extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Student Attendance");
         button1 = findViewById(R.id.button);
+        button2 = findViewById(R.id.button2);
         button1.setOnClickListener(view -> {
-            Intent StudentDetailsIntent = new Intent(this,Student_Details.class);
+            Intent StudentDetailsIntent = new Intent(this, Student_Details.class);
             startActivity(StudentDetailsIntent);
         });
+        button2.setOnClickListener(view -> {
+            try {
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                String formattedDate = dateFormat.format(calendar.getTime());
+
+                //String localFilePath = context.getFilesDir().getAbsolutePath() + "/student_data.json";
+                //File localFile = new File(localFilePath);
+                File localFile = new File(getFilesDir(), "student_data.json");
+
+                //String externalFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/JSON_Data/json_file.json";
+                //File externalFile = new File(externalFilePath);
+                File externalDir = new File(Environment.getExternalStorageDirectory(), "Download/Students Logs");
+                if (!externalDir.exists()) {
+                    externalDir.mkdirs();
+                }
+                File externalFile = new File(Environment.getExternalStorageDirectory(), "Download/Students Logs/" + formattedDate + ".json");
+
+                    FileInputStream inputStream = new FileInputStream(localFile);
+                        FileOutputStream outputStream = new FileOutputStream(externalFile);
+                            byte[] buffer = new byte[1024];
+                            int length;
+                            while ((length = inputStream.read(buffer)) > 0) {
+                                outputStream.write(buffer, 0, length);
+                            }
+                }
+            catch (Exception e){
+                Toast.makeText(context, "Download Failed", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+
+        });
+
         mAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mAdapter == null) {
             Toast.makeText(this, "This device does not support NFC", Toast.LENGTH_SHORT).show();
@@ -103,6 +264,7 @@ public class Attendance extends AppCompatActivity {
 
         // Read the file and parse the JSON array
         File file = new File(getFilesDir(), "student_data.json");
+        //File file = new File(Environment.getExternalStorageDirectory(), "Download/student_data.json");
         FileInputStream inputStream = new FileInputStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String inputString = reader.readLine();
@@ -127,12 +289,12 @@ public class Attendance extends AppCompatActivity {
             Calendar currentTime = Calendar.getInstance();
             dateArray.put(currentTime.getTime().toString());
 
-        // Write the updated array back to the file
-        FileOutputStream outputStream = new FileOutputStream(file);
-        outputStream.write(dataArray.toString().getBytes());
-        outputStream.close();
+            // Write the updated array back to the file
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(dataArray.toString().getBytes());
+            outputStream.close();
+        }
     }
-}
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

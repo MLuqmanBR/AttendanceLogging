@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Read the file and parse the JSON array
                     File file = new File(getFilesDir(), "student_data.json");
+                    //File file = new File(Environment.getExternalStorageDirectory(), "Download/student_data.json");
                     JSONArray dataArray;
 
                     try {
