@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">AUN</string>
     <string name="nfc_registration">NFC Registration</string>
     <string name="btn">Sign up</string>
     <string name="t1">NFC Registration</string>
