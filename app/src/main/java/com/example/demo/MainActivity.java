@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     dataObject.put("dates", dateArray);
 
                     // Create a File object for the desired directory
-                    File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    //File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
                     // Create a new file in the desired directory
                     //File file = new File(downloadDir, "JSON_Data/student_data.json");
@@ -115,12 +115,26 @@ public class MainActivity extends AppCompatActivity {
                     // Read the file and parse the JSON array
                     //File file = new File(getFilesDir(), "student_data.json");
 
-                    // Create a new file in the desired directory
-                    File file = new File(downloadDir, "JSON_Data/student_data.json");
+                    /* Create a new file in the desired directory
+                    File file = new File(downloadDir, "JSON_Data/student_registration.json");
 
                     // Make sure the required directories exist
-                    file.getParentFile().mkdirs();
+                    Objects.requireNonNull(file.getParentFile()).mkdirs();
 
+                    JSONArray dataArray;
+
+                    try {
+                        FileInputStream inputStream = new FileInputStream(file);
+                        String inputString = new BufferedReader(new InputStreamReader(inputStream)).readLine();
+                        inputStream.close();
+                        dataArray = new JSONArray(inputString);
+                    } catch (FileNotFoundException e) {
+                        // Create a new file with an empty array if the file does not exist
+                        dataArray = new JSONArray();
+                    }*/
+
+                    // Read the file and parse the JSON array
+                    File file = new File(getFilesDir(), "student_data.json");
                     JSONArray dataArray;
 
                     try {

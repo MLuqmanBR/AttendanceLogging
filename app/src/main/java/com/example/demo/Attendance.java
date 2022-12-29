@@ -62,9 +62,7 @@ public class Attendance extends AppCompatActivity {
         }
         try {
             readfromIntent(getIntent());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
 
@@ -95,8 +93,16 @@ public class Attendance extends AppCompatActivity {
         String name = studentData[0];
         String rollNo = studentData[1];
 
-        // Read the file and parse the JSON array
+        /* Read the file and parse the JSON array
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/JSON_Data", "student_data.json");
+        FileInputStream inputStream = new FileInputStream(file);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String inputString = reader.readLine();
+        inputStream.close();
+        reader.close();*/
+
+        // Read the file and parse the JSON array
+        File file = new File(getFilesDir(), "student_data.json");
         FileInputStream inputStream = new FileInputStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String inputString = reader.readLine();
@@ -132,9 +138,7 @@ public class Attendance extends AppCompatActivity {
         super.onNewIntent(intent);
         try {
             readfromIntent(intent);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
