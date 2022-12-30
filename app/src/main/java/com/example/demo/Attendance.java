@@ -186,7 +186,7 @@ public class Attendance extends AppCompatActivity {
             try {
 
                 Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
                 String formattedDate = dateFormat.format(calendar.getTime());
 
                 //String localFilePath = context.getFilesDir().getAbsolutePath() + "/student_data.json";
@@ -208,9 +208,11 @@ public class Attendance extends AppCompatActivity {
                             while ((length = inputStream.read(buffer)) > 0) {
                                 outputStream.write(buffer, 0, length);
                             }
-                }
+                Toast.makeText(this , "Downloaded File to Download/Student Logs/" + formattedDate + ".json", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Downloaded Successfull", Toast.LENGTH_LONG).show();
+            }
             catch (Exception e){
-                Toast.makeText(context, "Download Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Download Failed", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
