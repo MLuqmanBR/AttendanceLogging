@@ -56,14 +56,22 @@ public class Attendance extends AppCompatActivity {
         private String blockName;
         private String branch;
         private String phoneNo;
+        private String email;
+        private String project_title;
+        private String domain;
+        private String progress;
         private List<String> dates;
 
-        public Student(String name, String rollNo, String branch, String blockName, String phoneNo, List<String> dates) {
+        public Student(String name, String rollNo, String branch, String blockName, String phoneNo, String email, String project_title, String domain, String progress, List<String> dates) {
             this.name = name;
             this.rollNo = rollNo;
             this.branch = branch;
             this.blockName = blockName;
             this.phoneNo = phoneNo;
+            this.email = email;
+            this.project_title = project_title;
+            this.domain = domain;
+            this.progress = progress;
             this.dates = dates;
         }
 
@@ -107,6 +115,38 @@ public class Attendance extends AppCompatActivity {
             this.phoneNo = phoneNo;
         }
 
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getProjectTitle() {
+            return project_title;
+        }
+
+        public void setProjectTitle(String project_title) {
+            this.project_title = project_title;
+        }
+
+        public String getDomain() {
+            return domain;
+        }
+
+        public void setDomain(String domain) {
+            this.domain = domain;
+        }
+
+        public String getProgress() {
+            return progress;
+        }
+
+        public void setProgress(String progress) {
+            this.progress = progress;
+        }
+
         public List<String> getDates() {
             return this.dates;
         }
@@ -116,18 +156,22 @@ public class Attendance extends AppCompatActivity {
         }
 
         public Student fromJson(JSONObject jsonObject) throws JSONException {
-            String name = jsonObject.getString("name");
-            String rollNo = jsonObject.getString("rollNo");
-            String blockName = jsonObject.getString("blockName");
-            String branch = jsonObject.getString("branch");
-            String phoneNo = jsonObject.getString("phoneNo");
+            String name = jsonObject.getString("Name");
+            String rollNo = jsonObject.getString("Roll No.");
+            String blockName = jsonObject.getString("Degree");
+            String branch = jsonObject.getString("Branch");
+            String phoneNo = jsonObject.getString("Phone No.");
+            String email = jsonObject.getString("Email");
+            String project_title = jsonObject.getString("Project Title");
+            String domain = jsonObject.getString("Domain");
+            String progress = jsonObject.getString("Progress");
             JSONArray datesJsonArray = jsonObject.getJSONArray("dates");
             List<String> dates = new ArrayList<>();
             for (int i = 0; i < datesJsonArray.length(); i++) {
                 dates.add(datesJsonArray.getString(i));
             }
 
-            return new Student(name, rollNo, blockName, branch, phoneNo, dates);
+            return new Student(name, rollNo, blockName, branch, phoneNo, email, project_title, domain, progress, dates);
         }
 
         public List<Student> fromJson(JSONArray jsonArray) throws JSONException {
@@ -140,11 +184,15 @@ public class Attendance extends AppCompatActivity {
 
         public JSONObject toJson() throws JSONException {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", name);
-            jsonObject.put("rollNo", rollNo);
-            jsonObject.put("blockName", blockName);
-            jsonObject.put("branch", branch);
-            jsonObject.put("phoneNo", phoneNo);
+            jsonObject.put("Name", name);
+            jsonObject.put("Roll No.", rollNo);
+            jsonObject.put("Degree", blockName);
+            jsonObject.put("Branch", branch);
+            jsonObject.put("Phone No.", phoneNo);
+            jsonObject.put("Email", email);
+            jsonObject.put("Project Title", project_title);
+            jsonObject.put("Domain", domain);
+            jsonObject.put("Progress", progress);
             JSONArray datesJsonArray = new JSONArray(dates);
             jsonObject.put("dates", datesJsonArray);
 
@@ -251,7 +299,7 @@ public class Attendance extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.toString());
         }
-        String[] studentData = text.split(",");
+        String[] studentData = text.split("#");
 
         String name = studentData[0];
         String rollNo = studentData[1];
@@ -279,7 +327,7 @@ public class Attendance extends AppCompatActivity {
         JSONObject dataObject = null;
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject obj = dataArray.getJSONObject(i);
-            if (obj.getString("name").equals(name) && obj.getString("rollNo").equals(rollNo)) {
+            if (obj.getString("Name").equals(name) && obj.getString("Roll No.").equals(rollNo)) {
                 dataObject = obj;
                 break;
             }

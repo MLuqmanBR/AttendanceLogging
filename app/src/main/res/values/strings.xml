@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AUN</string>
+    <string name="app_name">SPAN</string>
     <string name="nfc_registration">NFC Registration</string>
     <string name="btn">Sign up</string>
     <string name="t1">NFC Registration</string>
@@ -20,11 +20,15 @@
     <string name="name">Name</string>
     <string name="activate_tag">Activate Tag</string>
     <string name="branch">Branch</string>
-    <string name="blockname">Block Name</string>
+    <string name="blockname">Degree</string>
     <string name="phone_no">Phone No.</string>
+    <string name="email">Email ID</string>
+    <string name="project_title">Project Title</string>
+    <string name="domain">Domain</string>
     <string name="attendance">Attendance</string>
     <string name="register_tag">Register Tag</string>
     <string name="view_student_details">View Student Details</string>
     <string name="download_today_s_data">Download Today\'s Data</string>
     <string name="student_details">STUDENT DETAILS</string>
+    <string name="progress_hint">Progress Of The Project</string>
 </resources>

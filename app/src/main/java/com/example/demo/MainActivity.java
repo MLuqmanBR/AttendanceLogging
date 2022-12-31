@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.hardware.lights.LightState;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -14,7 +16,11 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +37,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import android.os.Environment;
 
@@ -48,11 +56,16 @@ public class MainActivity extends AppCompatActivity {
     Tag myTag;
     Context context;
     TextView edit_message;
+    String progress;
 
     TextView rollno;
     TextView branch;
     TextView blockname;
     TextView phone;
+    TextView email;
+    TextView project_title;
+    TextView domain;
+    Spinner spinner;
     Button ActivateButton;
     Button ActivateButton2;
 
@@ -60,36 +73,71 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("AUN");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("SPAN");
         setContentView(R.layout.activity_main);
         edit_message = (TextView) findViewById(R.id.edit_message);
         rollno = (TextView) findViewById(R.id.rollno);
         blockname = (TextView) findViewById(R.id.blockname);
         branch = (TextView) findViewById(R.id.branch);
         phone = (TextView) findViewById(R.id.phoneno);
+        email = (TextView) findViewById(R.id.email);
+        project_title = (TextView) findViewById(R.id.project_title);
+        domain = (TextView) findViewById(R.id.domain); 
 
+        spinner = (Spinner) findViewById(R.id.spinner);
         ActivateButton = findViewById(R.id.ActivateButton);
         ActivateButton2 = findViewById(R.id.ActivateButton2);
+
+        List<String> categories = new ArrayList<>();
+        categories.add(0,"Select Your Progress");
+        categories.add("Developing");
+        categories.add("Completed");
+
+        ArrayAdapter<String> dataAdapter;
+        dataAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position).equals("Select Your Progress")) {
+
+                }
+                else {
+                    progress = parent.getItemAtPosition(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+
         ActivateButton2.setOnClickListener(view -> {
-            Intent AttendanceActIntent = new Intent(this,Attendance.class);
+            Intent AttendanceActIntent = new Intent(this, Attendance.class);
             startActivity(AttendanceActIntent);
         });
         context = this;
         ActivateButton.setOnClickListener(view -> {
             try {
-                if(myTag == null){
-                    Toast.makeText(context, Error_Detected,Toast.LENGTH_LONG).show();
-                }
-                else{
-                    write(edit_message.getText().toString() + "," + rollno.getText().toString() + "," + branch.getText().toString() + "," + blockname.getText().toString() + "," + phone.getText().toString(), myTag);
+                if (myTag == null) {
+                    Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
+                } else {
+                    write(edit_message.getText().toString() + "#" + rollno.getText().toString() + "#" + phone.getText().toString(), myTag);
 
                     // Create a JSON object for the data
                     JSONObject dataObject = new JSONObject();
-                    dataObject.put("name", edit_message.getText().toString());
-                    dataObject.put("rollNo", rollno.getText().toString());
-                    dataObject.put("branch", branch.getText().toString());
-                    dataObject.put("blockName", blockname.getText().toString());
-                    dataObject.put("phoneNo", phone.getText().toString());
+                    dataObject.put("Name", edit_message.getText().toString());
+                    dataObject.put("Roll No.", rollno.getText().toString());
+                    dataObject.put("Branch", branch.getText().toString());
+                    dataObject.put("Degree", blockname.getText().toString());
+                    dataObject.put("Phone No.", phone.getText().toString());
+                    dataObject.put("Email", email.getText().toString());
+                    dataObject.put("Project Title", project_title.getText().toString());
+                    dataObject.put("Domain", domain.getText().toString());
+                    dataObject.put("Progress", progress);
 
                     // Create an array to hold the dates and times
                     JSONArray dateArray = new JSONArray();
@@ -156,24 +204,24 @@ public class MainActivity extends AppCompatActivity {
                     outputStream.write(dataArray.toString().getBytes());
                     outputStream.close();
 
-                    Toast.makeText(context,Write_Success,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, Write_Success, Toast.LENGTH_LONG).show();
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         });
         mAdapter = NfcAdapter.getDefaultAdapter(this);
-        if(mAdapter == null){
+        if (mAdapter == null) {
             Toast.makeText(this, "This device does not support NFC", Toast.LENGTH_SHORT).show();
             finish();
         }
 
-        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_MUTABLE);
+        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_MUTABLE);
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
-        writingTagFilter = new IntentFilter[] { tagDetected };
+        writingTagFilter = new IntentFilter[]{tagDetected};
     }
 
     private void write(String text, Tag tag) throws IOException, FormatException {

@@ -5,34 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Student_Details"
-    android:background="@drawable/stu">
+    android:background="@drawable/span">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/student_details"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044"
-        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/nfc_contents_name"
-        android:layout_width="231dp"
-        android:layout_height="36dp"
-        android:layout_margin="55dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="200px"
+        android:layout_marginBottom="10dp"
+        
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:autoSizeTextType="uniform"
         android:textStyle="normal"
         android:gravity="center_vertical|start"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,12 +31,15 @@
 
     <TextView
         android:id="@+id/nfc_contents_rollno"
-        android:layout_width="211dp"
-        android:layout_height="30dp"
-        android:layout_margin="55dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="200px"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:textStyle="normal"
+        
         android:gravity="center_vertical|start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,11 +51,14 @@
 
     <TextView
         android:id="@+id/nfc_contents_branch"
-        android:layout_width="216dp"
-        android:layout_height="30dp"
-        android:layout_margin="55dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="200px"
+        android:layout_marginBottom="10dp"
+        
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:textStyle="normal"
         android:gravity="center_vertical|start"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,11 +71,14 @@
 
     <TextView
         android:id="@+id/nfc_contents_blockname"
-        android:layout_width="168dp"
-        android:layout_height="30dp"
-        android:layout_margin="55dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="215px"
+        android:layout_marginBottom="10dp"
+        
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:textStyle="normal"
         android:gravity="center_vertical|start"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,12 +90,15 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/nfc_contents_phoneno"
-        android:layout_width="194dp"
-        android:layout_height="23dp"
-        android:layout_margin="55dp"
+        android:id="@+id/nfc_contents_domain"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="205px"
+        android:layout_marginBottom="10dp"
+        
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:textStyle="normal"
         android:gravity="center_vertical|start"
         android:paddingLeft="4dp"
@@ -108,6 +108,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/nfc_contents_blockname"
         app:layout_constraintVertical_bias="0.048"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/nfc_contents_progress"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="250px"
+        android:layout_marginBottom="10dp"
+        
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="normal"
+        android:gravity="center_vertical|start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_domain"
+        app:layout_constraintVertical_bias="0.140"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/nfc_contents_phoneno"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="235px"
+        android:layout_marginBottom="10dp"
+        
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="normal"
+        android:gravity="center_vertical|start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_progress"
+        app:layout_constraintVertical_bias="0.140"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/nfc_contents_email"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="45dp"
+        android:layout_marginTop="250px"
+        android:layout_marginBottom="10dp"
+        
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="normal"
+        android:gravity="center_vertical|start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nfc_contents_phoneno"
+        app:layout_constraintVertical_bias="0.140"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
